@@ -1,0 +1,14 @@
+{
+	"name": "nfengine",
+	"url": "https://github.com/hamcha/nfengine",
+	"license": "MIT",
+	"tags": ["game", "engine", "2d", "openfl"],
+	"description": "OpenFL-based 2D Game Engine",
+	"version": "1.0.0",
+	"releasenote": "Initial release",
+	"contributors": [ "Hamcha" ],
+	"dependencies": {
+		"openfl": "",
+		"differ": ""
+	}
+}
