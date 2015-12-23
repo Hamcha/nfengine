@@ -20,11 +20,11 @@ class Scene extends Sprite {
 #if DEBUG_SHAPES
 		// Collision debugger code
 		var debugSprite: Sprite = new Sprite();
-		var debugDrawer: DebugShapeDrawer = new DebugShapeDrawer(debugSprite.nf.graphics);
+		var debugDrawer: DebugShapeDrawer = new DebugShapeDrawer(debugSprite.graphics);
 		addChild(debugSprite);
 		addEventListener(Event.ENTER_FRAME, function(e: Event) {
 			setChildIndex(debugSprite, numChildren - 1);
-			debugSprite.nf.graphics.clear();
+			debugSprite.graphics.clear();
 			for (cid in 0...numChildren) {
 				var children: DisplayObject = getChildAt(cid);
 				if (!Std.is(children, ICollidable)) {
