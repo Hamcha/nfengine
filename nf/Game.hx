@@ -28,6 +28,9 @@ class Game extends Sprite {
 		var currentTime: Int = Lib.getTimer();
 		timeDelta = (currentTime - lastFrameTime) * 0.001;
 		lastFrameTime = currentTime;
+
+		// Update gamepad input
+		Input.instance.updatePad();
 	}
 
 	public function setState(state: GameState) {

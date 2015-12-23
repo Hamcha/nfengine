@@ -1,5 +1,6 @@
 package nf;
 
+import openfl.ui.GameInputControl;
 import openfl.ui.GameInputDevice;
 import openfl.events.GameInputEvent;
 import openfl.events.KeyboardEvent;
@@ -16,16 +17,22 @@ class Input {
 		return instance;
 	}
 
-	private var ginput: GameInput;
-
 	public static function getButton(btnName: String): Float {
 		return instance.buttons.get(btnName);
 	}
 
-	private var pads: Map<Int, GameInputDevice>;
+	// Syntactic sugar for a analog-like version of getButton
+	public static function getAxis(btnName: String): Float {
+		return Input.getButton(btnName) * 2 - 1;
+	}
+
+	public static var GamepadCount: Int = 0;
+
+	private var pads: Array<GameInputDevice>;
+	private var ginput: GameInput;
 
 	public var kb: Map<Int, String>;
-	public var pad: Map<Int, String>;
+	public var gamepad: Map<String, String>;
 	public var buttons: Map<String, Float>;
 
 	public var enablekb: Bool;
@@ -45,11 +52,17 @@ class Input {
 	}
 
 	private function controllerAdded(e: GameInputEvent) {
-		trace(e);
+		e.device.enabled = true;
+		pads.push(e.device);
+		for (cid in 0...e.device.numControls) {
+			trace(e.device.getControlAt(cid).id);
+		}
+		GamepadCount++;
 	}
 
 	private function controllerRemoved(e: GameInputEvent) {
-		trace(e);
+		pads.remove(e.device);
+		GamepadCount--;
 	}
 
 	private function controllerProblem(e: GameInputEvent) {
@@ -68,16 +81,28 @@ class Input {
 		}
 	}
 
-	private function updatePad() {
-		//TODO Update controller table
+	public function updatePad() {
+		for (pid in 0...pads.length) {
+			var pad: GameInputDevice = pads[pid];
+			for (cid in 0...pad.numControls) {
+				var control: GameInputControl = pad.getControlAt(cid);
+				var pcid: String = pid + "-" + control.id;
+				if (gamepad.exists(pcid)) {
+					var normalized: Float = (control.value - control.minValue) / (control.maxValue - control.minValue); // Inverse Lerp
+					buttons.set(gamepad[pcid], normalized);
+				}
+			}
+		}
 	}
 
 	private function new() {
 		enablekb = true;
-		enablepad = false;
+		enablepad = true;
 
 		kb = new Map<Int, String>();
 		buttons = new Map<String, Float>();
+		gamepad = new Map<String, String>();
+		pads = new Array<GameInputDevice>();
 
 		ginput = new GameInput();
 	}
