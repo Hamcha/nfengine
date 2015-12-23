@@ -60,6 +60,11 @@ class Scene extends Sprite {
 			var collidable: ICollidable = cast(children, ICollidable);
 			var collisionData: CollisionData = collidable.collides(actor.getCollider());
 
+			// Ignore if it doesn't belong to the category we're searching for
+			if (category != "all" && collidable.getCategory() != category) {
+				continue;
+			}
+
 			if (collisionData != null && collisionData.collided) {
 				collisions.push(new Collision(collisionData, actor, collidable));
 			}

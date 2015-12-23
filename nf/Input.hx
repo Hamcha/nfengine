@@ -54,9 +54,6 @@ class Input {
 	private function controllerAdded(e: GameInputEvent) {
 		e.device.enabled = true;
 		pads.push(e.device);
-		for (cid in 0...e.device.numControls) {
-			trace(e.device.getControlAt(cid).id);
-		}
 		GamepadCount++;
 	}
 
