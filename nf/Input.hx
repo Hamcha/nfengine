@@ -1,8 +1,10 @@
 package nf;
 
-import openfl.ui.Keyboard;
+import openfl.ui.GameInputDevice;
+import openfl.events.GameInputEvent;
 import openfl.events.KeyboardEvent;
 import openfl.display.Stage;
+import openfl.ui.GameInput;
 
 class Input {
 	public static var instance(get, null): Input;
@@ -14,43 +16,69 @@ class Input {
 		return instance;
 	}
 
-	public static function getButton(btnName: String): Bool {
+	private var ginput: GameInput;
+
+	public static function getButton(btnName: String): Float {
 		return instance.buttons.get(btnName);
 	}
 
-	private var bindings: Map<Int, String>;
-	public var buttons: Map<String, Bool>;
+	private var pads: Map<Int, GameInputDevice>;
+
+	public var kb: Map<Int, String>;
+	public var pad: Map<Int, String>;
+	public var buttons: Map<String, Float>;
+
+	public var enablekb: Bool;
+	public var enablepad: Bool;
+
+	private function get_gamepad(id: Int): GameInputDevice {
+		return GameInput.getDeviceAt(id);
+	}
 
 	public function bindEvents(stage: Stage) {
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+
+		ginput.addEventListener(GameInputEvent.DEVICE_ADDED, controllerAdded);
+		ginput.addEventListener(GameInputEvent.DEVICE_REMOVED, controllerRemoved);
+		ginput.addEventListener(GameInputEvent.DEVICE_UNUSABLE, controllerProblem);
+	}
+
+	private function controllerAdded(e: GameInputEvent) {
+		trace(e);
+	}
+
+	private function controllerRemoved(e: GameInputEvent) {
+		trace(e);
+	}
+
+	private function controllerProblem(e: GameInputEvent) {
+		trace(e);
 	}
 
 	private function onKeyDown(e: KeyboardEvent) {
-		if (bindings.exists(e.keyCode)) {
-			buttons.set(bindings[e.keyCode], true);
+		if (kb.exists(e.keyCode)) {
+			buttons.set(kb[e.keyCode], 1);
 		}
 	}
 
 	private function onKeyUp(e: KeyboardEvent) {
-		if (bindings.exists(e.keyCode)) {
-			buttons.set(bindings[e.keyCode], false);
+		if (kb.exists(e.keyCode)) {
+			buttons.set(kb[e.keyCode], 0);
 		}
 	}
 
+	private function updatePad() {
+		//TODO Update controller table
+	}
+
 	private function new() {
-		bindings = new Map<Int, String>();
-		buttons = new Map<String, Bool>();
+		enablekb = true;
+		enablepad = false;
 
-		// Add default bindings
-		bindings[Keyboard.W] = "Up";
-		bindings[Keyboard.A] = "Left";
-		bindings[Keyboard.S] = "Down";
-		bindings[Keyboard.D] = "Right";
+		kb = new Map<Int, String>();
+		buttons = new Map<String, Float>();
 
-		bindings[Keyboard.UP] = "Up";
-		bindings[Keyboard.LEFT] = "Left";
-		bindings[Keyboard.DOWN] = "Down";
-		bindings[Keyboard.RIGHT] = "Right";
+		ginput = new GameInput();
 	}
 }

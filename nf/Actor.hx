@@ -5,6 +5,7 @@ import nf.physics.Collider;
 import nf.physics.CollisionData;
 import nf.physics.NullCollider;
 import nf.physics.ICollidable;
+
 import openfl.display.Sprite;
 
 class Actor extends Sprite implements ICollidable {
