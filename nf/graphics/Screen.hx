@@ -19,4 +19,12 @@ class Screen {
 	static public function relY(positionY: Float): Int {
 		return Math.round(Screen.height * positionY);
 	}
+
+	static public function sceneRelX(scene: Scene, pX: Float): Int {
+		return Math.round(scene.scrollRect.width * pX);
+	}
+
+	static public function sceneRelY(scene: Scene, pY: Float): Int {
+		return Math.round(scene.scrollRect.height * pY);
+	}
 }

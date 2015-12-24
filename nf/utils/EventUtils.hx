@@ -9,4 +9,7 @@ class EventUtils {
 			obj.stage.addEventListener(Event.ENTER_FRAME, fn);
 		});
 	}
+	public static function clearUpdate(obj: DisplayObject, fn: Event -> Void) {
+		obj.stage.removeEventListener(Event.ENTER_FRAME, fn);
+	}
 }
