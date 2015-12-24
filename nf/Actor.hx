@@ -35,4 +35,9 @@ class Actor extends Sprite implements ICollidable {
 	public function getCategory() {
 		return "none";
 	}
+
+	public static function destroy(a: Actor) {
+		a.scene.removeChild(a);
+		a = null;
+	}
 }
