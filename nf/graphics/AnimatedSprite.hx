@@ -30,7 +30,7 @@ class AnimatedSprite extends Sprite {
 	public var flipY(get, set): Bool;
 
 	private var pivot: Point;
-	public function new(bitmap: BitmapData, tileWidth: Int, tileHeight: Int) {
+	public function new(bitmap: BitmapData, tileWidth: Int, tileHeight: Int, padding: Int = 0) {
 		super();
 
 		tilesheet = new Tilesheet(bitmap);
@@ -41,7 +41,7 @@ class AnimatedSprite extends Sprite {
 		// Get spritesheet frames
 		for (y in 0...tileCols) {
 			for (x in 0...tileRows) {
-				tilesheet.addTileRect(new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight));
+				tilesheet.addTileRect(new Rectangle(x * tileWidth + padding * x, y * tileHeight + padding * y, tileWidth, tileHeight));
 			}
 		}
 

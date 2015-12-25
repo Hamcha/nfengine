@@ -38,6 +38,11 @@ class Actor extends Sprite implements ICollidable {
 
 	public function dispose() {}
 
+	public function isOutsideScene() {
+		return x+width < scene.scrollRect.left || x-width > scene.scrollRect.right ||
+		        y+height < scene.scrollRect.top || y-height > scene.scrollRect.bottom;
+	}
+
 	public static function destroy(a: Actor) {
 		a.dispose();
 		a.parent.removeChild(a);
