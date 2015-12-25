@@ -17,8 +17,8 @@ class Camera extends Rectangle {
 		var baseX: Float = width * 0.5;
 		var baseY: Float = height * 0.5;
 
-		this.x = baseX - x * scaleX;
-		this.y = baseY - y * scaleY;
+		this.x = Std.int(baseX - x * scaleX);
+		this.y = Std.int(baseY - y * scaleY);
 
 		container.x = this.x;
 		container.y = this.y;
@@ -28,8 +28,8 @@ class Camera extends Rectangle {
 		var baseX: Float = width * 0.5;
 		var baseY: Float = height * 0.5;
 
-		this.x = baseX - object.x * scaleX;
-		this.y = baseY - object.y * scaleY;
+		this.x = Std.int(baseX - object.x * scaleX);
+		this.y = Std.int(baseY - object.y * scaleY);
 
 		container.x = this.x;
 		container.y = this.y;

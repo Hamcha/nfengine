@@ -59,8 +59,8 @@ class MapLayer {
 				}
 
 				// Order is: X, Y, TileID, …
-				layerData.push(x * tileWidth);
-				layerData.push(y * tileHeight);
+				layerData.push(Std.int(x * tileWidth));
+				layerData.push(Std.int(y * tileHeight));
 				layerData.push(tileId);
 				index++;
 			}
@@ -166,5 +166,9 @@ class Tilemap extends Sprite implements ICollidable {
 
 	public function getCollider(): Collider {
 		return tilecollider;
+	}
+
+	public function getCategory(): String {
+		return "map";
 	}
 }
