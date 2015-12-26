@@ -43,7 +43,7 @@ class Actor extends Sprite implements ICollidable {
 		        y+height < scene.scrollRect.top || y-height > scene.scrollRect.bottom;
 	}
 
-	public static function destroy(a: Actor) {
+	public static inline function destroy(a: Actor) {
 		a.dispose();
 		a.parent.removeChild(a);
 		a = null;

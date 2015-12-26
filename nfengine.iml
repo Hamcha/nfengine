@@ -14,17 +14,17 @@
     <orderEntry type="jdk" jdkName="Haxe 3.2.0" jdkType="Haxe toolkit" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="OpenFL 3.3.6" level="project" />
+    <orderEntry type="library" name="Differ 1.2.0" level="project" />
     <orderEntry type="module-library">
-      <library name="haxelib|E:/HaxeToolkit/haxe/lib/openfl/3,3,6">
+      <library name="haxelib|openfl">
         <CLASSES>
-          <root url="file://E:/HaxeToolkit/haxe/lib/openfl/3,3,6" />
+          <root url="E:\HaxeToolkit\haxe\lib\openfl/3,3,6/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://E:/HaxeToolkit/haxe/lib/openfl/3,3,6" />
+          <root url="E:\HaxeToolkit\haxe\lib\openfl/3,3,6/" />
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Differ 1.2.0" level="project" />
   </component>
 </module>

@@ -13,18 +13,18 @@ class Screen {
 		return Lib.current.stage.stageHeight;
 	}
 
-	static public function relX(positionX: Float): Int {
+	static public inline function relX(positionX: Float): Int {
 		return Math.round(Screen.width * positionX);
 	}
-	static public function relY(positionY: Float): Int {
+	static public inline function relY(positionY: Float): Int {
 		return Math.round(Screen.height * positionY);
 	}
 
-	static public function sceneRelX(scene: Scene, pX: Float): Int {
+	static public inline function sceneRelX(scene: Scene, pX: Float): Int {
 		return Math.round(scene.scrollRect.width * pX);
 	}
 
-	static public function sceneRelY(scene: Scene, pY: Float): Int {
+	static public inline function sceneRelY(scene: Scene, pY: Float): Int {
 		return Math.round(scene.scrollRect.height * pY);
 	}
 }

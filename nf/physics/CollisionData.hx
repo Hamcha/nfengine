@@ -12,6 +12,10 @@ class Collision {
 		this.first = first;
 		this.second = second;
 	}
+
+	public static inline function other(collision: Collision, you: ICollidable): ICollidable {
+		return you == collision.first ? collision.second : collision.first;
+	}
 }
 
 class CollisionData {
