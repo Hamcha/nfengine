@@ -42,6 +42,7 @@ class Scene extends Sprite {
 
 	public function collides(actor: Actor, category: String): Array<Collision> {
 		var collisions = new Array<Collision>();
+		var collider = actor.getCollider();
 
 		// Loop through childrens
 		for (cid in 0...numChildren) {
@@ -58,13 +59,12 @@ class Scene extends Sprite {
 			}
 
 			var collidable: ICollidable = cast(children, ICollidable);
-			var collisionData: CollisionData = collidable.collides(actor.getCollider());
-
 			// Ignore if it doesn't belong to the category we're searching for
 			if (category != "all" && collidable.getCategory() != category) {
 				continue;
 			}
 
+			var collisionData: CollisionData = collidable.collides(collider);
 			if (collisionData != null && collisionData.collided) {
 				collisions.push(new Collision(collisionData, actor, collidable));
 			}
@@ -76,5 +76,15 @@ class Scene extends Sprite {
 	public function addActor(actor: Actor) {
 		actor.scene = this;
 		addChild(actor);
+	}
+
+	public function freeze() {
+		// Stop all actors
+		for (cid in 0...numChildren) {
+			var children: DisplayObject = getChildAt(cid);
+			if (Std.is(children, Actor)) {
+				cast(children, Actor).active = false;
+			}
+		}
 	}
 }

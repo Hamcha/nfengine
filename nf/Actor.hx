@@ -1,5 +1,7 @@
 package nf;
 
+import nf.utils.EventUtils;
+import openfl.events.Event;
 import nf.graphics.Scene;
 import nf.physics.Collider;
 import nf.physics.CollisionData;
@@ -11,11 +13,21 @@ import openfl.display.Sprite;
 class Actor extends Sprite implements ICollidable {
 	public var collider: Collider;
 	public var scene: Scene;
+	public var active: Bool = true;
 
 	public function new() {
 		super();
 		collider = new NullCollider();
+		EventUtils.update(this, _update);
 	}
+
+	private function _update(e: Event) {
+		if (active) {
+			update();
+		}
+	}
+
+	private function update() {}
 
 	public function collides(collider: Collider): CollisionData {
 		updateCollider();
@@ -36,7 +48,9 @@ class Actor extends Sprite implements ICollidable {
 		return "none";
 	}
 
-	public function dispose() {}
+	public function dispose() {
+		EventUtils.clearUpdate(this, _update);
+	}
 
 	public function isOutsideScene() {
 		return x+width < scene.scrollRect.left || x-width > scene.scrollRect.right ||

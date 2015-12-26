@@ -1,6 +1,7 @@
 package nf.physics;
 
 import openfl.geom.Point;
+
 import differ.shapes.Shape;
 
 class Collider {
