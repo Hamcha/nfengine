@@ -14,7 +14,9 @@ import openfl.display.Sprite;
 class Scene extends Sprite {
 	public var camera: Camera;
 	public var inspector: Inspector;
-	public var active: Bool = true;
+	public var active(get, set): Bool;
+
+	private var _active: Bool = true;
 
 	public function new() {
 		super();
@@ -64,14 +66,18 @@ class Scene extends Sprite {
 		addChild(actor);
 	}
 
-	public function freeze() {
-		active = false;
+	public function get_active(): Bool {
+		return _active;
+	}
+
+	public function set_active(value: Bool): Bool {
 		// Stop all actors
 		for (cid in 0...numChildren) {
 			var children: DisplayObject = getChildAt(cid);
 			if (Std.is(children, Actor)) {
-				cast(children, Actor).active = false;
+				cast(children, Actor).active = value;
 			}
 		}
+		return this._active = value;
 	}
 }
