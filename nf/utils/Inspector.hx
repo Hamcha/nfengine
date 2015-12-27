@@ -71,12 +71,11 @@ class Inspector extends Actor {
 	}
 
 	public function inspectCollision(collision: Collision) {
-#if INSPECTOR
-		scene.freeze();
-		currentCollision = collision;
-		inspectorState = InspectState.InspectCollision;
-#else
-		#error "The inspector is disabled, remove the debug code or define -D inspector"
+#if !INSPECTOR
+	#error "The inspector is disabled, remove the debug code or define -D inspector"
 #end
+		inspectorState = InspectState.InspectCollision;
+		scene.active = false;
+		currentCollision = collision;
 	}
 }

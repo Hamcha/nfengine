@@ -1,5 +1,7 @@
 package nf.utils;
 
+import differ.data.ShapeCollision;
+import UInt;
 import differ.shapes.Circle;
 import openfl.display.Graphics;
 import differ.math.Vector;
@@ -8,10 +10,20 @@ import differ.ShapeDrawer;
 // Based on the good ol' OpenFLDrawer
 class DebugShapeDrawer extends ShapeDrawer {
 	private var graphics: Graphics;
+	private var color: Int;
+	private var defaultColor: Int = 0xff0000;
+	private var unitColor: Int = 0x00aaff;
 
 	public function new(_graphics: Graphics) {
 		super();
 		this.graphics = _graphics;
+		color = defaultColor;
+	}
+
+	public override function drawShapeCollision(data:ShapeCollision, ?length:Float = 30) {
+		color = unitColor;
+		super.drawShapeCollision(data, length);
+		color = defaultColor;
 	}
 
 	public override function drawLine(p0:Vector, p1:Vector, ?startPoint:Bool = true) {
@@ -34,6 +46,6 @@ class DebugShapeDrawer extends ShapeDrawer {
 	}
 
 	private function lineStyle() {
-		this.graphics.lineStyle(1, 0xff0000);
+		this.graphics.lineStyle(1, color);
 	}
 }
