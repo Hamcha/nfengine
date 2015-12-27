@@ -57,10 +57,6 @@ class AnimatedSprite extends Sprite {
 		// Set default orientation
 		flipX = false;
 		flipY = false;
-
-		addEventListener(Event.ADDED_TO_STAGE, function(e: Event){
-			stage.addEventListener(Event.ENTER_FRAME, render);
-		});
 	}
 
 	public function addAnimation(animationName: String, animation: SpriteAnimation) {
@@ -72,7 +68,7 @@ class AnimatedSprite extends Sprite {
 		currentAnimation = newAnimation;
 	}
 
-	private function render(e: Event) {
+	public function render() {
 		var timeOffset: Float = (Lib.getTimer() - animationTimeBase) / 1000;
 		var animation: SpriteAnimation = animations[currentAnimation];
 		var currentAnimationTile: Int = Math.floor(timeOffset / animation.speed) % animation.frames.length;
