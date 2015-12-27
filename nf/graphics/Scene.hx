@@ -1,42 +1,28 @@
 package nf.graphics;
 
-import openfl.display.DisplayObject;
 import nf.physics.Collider;
-import openfl.events.Event;
 import nf.physics.ICollidable;
 import nf.physics.CollisionData;
-import openfl.display.Sprite;
-#if DEBUG_SHAPES
-import nf.utils.DebugShapeDrawer;
+
+#if INSPECTOR
+import nf.utils.Inspector;
 #end
+
+import openfl.display.DisplayObject;
+import openfl.display.Sprite;
 
 class Scene extends Sprite {
 	public var camera: Camera;
+	public var inspector: Inspector;
+	public var active: Bool = true;
 
 	public function new() {
 		super();
 		camera = new Camera(this);
 
-#if DEBUG_SHAPES
-		// Collision debugger code
-		var debugSprite: Sprite = new Sprite();
-		var debugDrawer: DebugShapeDrawer = new DebugShapeDrawer(debugSprite.graphics);
-		addChild(debugSprite);
-		addEventListener(Event.ENTER_FRAME, function(e: Event) {
-			setChildIndex(debugSprite, numChildren - 1);
-			debugSprite.graphics.clear();
-			for (cid in 0...numChildren) {
-				var children: DisplayObject = getChildAt(cid);
-				if (!Std.is(children, ICollidable)) {
-					continue;
-				}
-				var collidable: ICollidable = cast(children, ICollidable);
-				var collider: Collider = collidable.getCollider();
-				if (collider != null && collider.shape != null) {
-					debugDrawer.drawShape(collider.shape);
-				}
-			}
-		});
+#if INSPECTOR
+		inspector = new Inspector();
+		addActor(inspector);
 #end
 	}
 
@@ -79,6 +65,7 @@ class Scene extends Sprite {
 	}
 
 	public function freeze() {
+		active = false;
 		// Stop all actors
 		for (cid in 0...numChildren) {
 			var children: DisplayObject = getChildAt(cid);
