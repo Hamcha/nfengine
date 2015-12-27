@@ -2,7 +2,6 @@ package nf.graphics;
 
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
-import openfl.events.Event;
 import openfl.display.Sprite;
 import openfl.Lib;
 import openfl.display.BitmapData;
