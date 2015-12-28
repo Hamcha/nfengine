@@ -28,8 +28,7 @@ class AnimatedSprite extends Sprite {
 	public var flipX(get, set): Bool;
 	public var flipY(get, set): Bool;
 
-	private var pivot: Point;
-	public function new(bitmap: BitmapData, tileWidth: Int, tileHeight: Int, padding: Int = 0) {
+	public function new(bitmap: BitmapData, tileWidth: Int, tileHeight: Int, padding: Int = 0, pivot: Point = null) {
 		super();
 
 		tilesheet = new Tilesheet(bitmap);
@@ -37,21 +36,23 @@ class AnimatedSprite extends Sprite {
 		var tileRows: Int = Math.floor(bitmap.width / tileWidth);
 		var tileCols: Int = Math.floor(bitmap.height / tileHeight);
 
+		// Set pivot to center
+		if (pivot == null) {
+			pivot = new Point();
+			pivot.x = tileWidth/2;
+			pivot.y = tileHeight/2;
+		}
+
 		// Get spritesheet frames
 		for (y in 0...tileCols) {
 			for (x in 0...tileRows) {
-				tilesheet.addTileRect(new Rectangle(x * tileWidth + padding * x, y * tileHeight + padding * y, tileWidth, tileHeight));
+				tilesheet.addTileRect(new Rectangle(x * tileWidth + padding * x, y * tileHeight + padding * y, tileWidth, tileHeight), pivot);
 			}
 		}
 
 		animations = new Map<String, SpriteAnimation>();
 		currentAnimation = "";
 		animationTimeBase = Lib.getTimer();
-
-		// Set pivot to center (default)
-		pivot = new Point();
-		pivot.x = -tileWidth/2;
-		pivot.y = -tileHeight/2;
 
 		// Set default orientation
 		flipX = false;
@@ -73,7 +74,7 @@ class AnimatedSprite extends Sprite {
 		var currentAnimationTile: Int = Math.floor(timeOffset / animation.speed) % animation.frames.length;
 
 		this.graphics.clear();
-		tilesheet.drawTiles(graphics, [pivot.x, pivot.y, animation.frames[currentAnimationTile]]);
+		tilesheet.drawTiles(graphics, [0, 0, animation.frames[currentAnimationTile], rotation], false, Tilesheet.TILE_ROTATION);
 	}
 
 	private function get_flipX(): Bool {
