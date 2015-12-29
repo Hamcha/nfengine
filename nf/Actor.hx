@@ -58,8 +58,10 @@ class Actor extends Sprite implements ICollidable {
 	}
 
 	public static inline function destroy(a: Actor) {
-		a.dispose();
-		a.parent.removeChild(a);
-		a = null;
+		if (a != null) {
+			a.dispose();
+			a.parent.removeChild(a);
+			a = null;
+		}
 	}
 }
