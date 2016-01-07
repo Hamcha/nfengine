@@ -13,7 +13,9 @@ import openfl.display.Sprite;
 
 class Scene extends Sprite {
 	public var camera: Camera;
+#if INSPECTOR
 	public var inspector: Inspector;
+#end
 	public var active(get, set): Bool;
 
 	private var _active: Bool = true;
