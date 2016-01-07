@@ -73,8 +73,13 @@ class AnimatedSprite extends Sprite {
 		var animation: SpriteAnimation = animations[currentAnimation];
 		var currentAnimationTile: Int = Math.floor(timeOffset / animation.speed) % animation.frames.length;
 
+		var local = new Point(x, y);
+		var global = localToGlobal(local);
+		global.x -= Math.ffloor(global.x);
+		global.y -= Math.ffloor(global.y);
+
 		this.graphics.clear();
-		tilesheet.drawTiles(graphics, [0, 0, animation.frames[currentAnimationTile], rotation], false, Tilesheet.TILE_ROTATION);
+		tilesheet.drawTiles(graphics, [global.x, global.y, animation.frames[currentAnimationTile], rotation], false, Tilesheet.TILE_ROTATION);
 	}
 
 	private function get_flipX(): Bool {
