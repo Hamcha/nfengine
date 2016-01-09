@@ -7,6 +7,11 @@ import openfl.Lib;
 import openfl.display.BitmapData;
 import openfl.display.Tilesheet;
 
+enum AnimationType {
+	Loop;
+	One;
+}
+
 class SpriteAnimation {
 	public var frames: Array<Int>;
 	public var speed: Float;
@@ -24,17 +29,21 @@ class AnimatedSprite extends Sprite {
 	private var animationTimeBase: Float;
 
 	public var currentAnimation(default, null): String;
+	public var type: AnimationType;
 
 	public var flipX(get, set): Bool;
 	public var flipY(get, set): Bool;
 
-	public function new(bitmap: BitmapData, tileWidth: Int, tileHeight: Int, padding: Int = 0, pivot: Point = null) {
+	// Animation end callback
+	public var onAnimationEnd: (String) -> Void = null;
+
+	public function new(bitmap: BitmapData, tileWidth: Int, tileHeight: Int, padding: Int = 0, pivot: Point = null, type: AnimationType = null) {
 		super();
 
 		tilesheet = new Tilesheet(bitmap);
 
-		var tileRows: Int = Math.floor(bitmap.width / tileWidth);
-		var tileCols: Int = Math.floor(bitmap.height / tileHeight);
+		var tileRows: Int = Math.ceil(bitmap.width / (tileWidth + padding));
+		var tileCols: Int = Math.ceil(bitmap.height / (tileHeight + padding));
 
 		// Set pivot to center
 		if (pivot == null) {
@@ -43,10 +52,17 @@ class AnimatedSprite extends Sprite {
 			pivot.y = tileHeight/2;
 		}
 
+		this.type = type;
+
+		// Default type is looping
+		if (this.type == null) {
+			this.type = AnimationType.Loop;
+		}
+
 		// Get spritesheet frames
 		for (y in 0...tileCols) {
 			for (x in 0...tileRows) {
-				tilesheet.addTileRect(new Rectangle(x * tileWidth + padding * x, y * tileHeight + padding * y, tileWidth, tileHeight), pivot);
+				tilesheet.addTileRect(new Rectangle(x * (tileWidth + padding), y * (tileHeight + padding), tileWidth, tileHeight), pivot);
 			}
 		}
 
@@ -71,7 +87,19 @@ class AnimatedSprite extends Sprite {
 	public function render() {
 		var timeOffset: Float = (Lib.getTimer() - animationTimeBase) / 1000;
 		var animation: SpriteAnimation = animations[currentAnimation];
-		var currentAnimationTile: Int = Math.floor(timeOffset / animation.speed) % animation.frames.length;
+		var currentAnimationTile: Int = Math.floor(timeOffset / animation.speed);
+
+		switch (type) {
+			case AnimationType.Loop:
+				currentAnimationTile = currentAnimationTile % animation.frames.length;
+			case AnimationType.One:
+				if (currentAnimationTile >= animation.frames.length) {
+					currentAnimationTile = 0;
+					if (onAnimationEnd != null) {
+						onAnimationEnd(currentAnimation);
+					}
+				}
+		}
 
 		var local = new Point(x, y);
 		var global = localToGlobal(local);
