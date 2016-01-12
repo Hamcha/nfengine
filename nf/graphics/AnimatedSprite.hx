@@ -42,8 +42,8 @@ class AnimatedSprite extends Sprite {
 
 		tilesheet = new Tilesheet(bitmap);
 
-		var tileRows: Int = Math.ceil(bitmap.width / (tileWidth + padding));
-		var tileCols: Int = Math.ceil(bitmap.height / (tileHeight + padding));
+		var tileRows: Int = Math.floor((bitmap.width + padding) / (tileWidth + padding));
+		var tileCols: Int = Math.floor((bitmap.height + padding) / (tileHeight + padding));
 
 		// Set pivot to center
 		if (pivot == null) {
