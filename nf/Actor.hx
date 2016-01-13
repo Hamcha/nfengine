@@ -1,7 +1,7 @@
 package nf;
 
+import nf.utils.IDisposable;
 import nf.utils.EventUtils;
-import openfl.events.Event;
 import nf.graphics.Scene;
 import nf.physics.Collider;
 import nf.physics.CollisionData;
@@ -9,8 +9,9 @@ import nf.physics.NullCollider;
 import nf.physics.ICollidable;
 
 import openfl.display.Sprite;
+import openfl.events.Event;
 
-class Actor extends Sprite implements ICollidable {
+class Actor extends Sprite implements ICollidable implements IDisposable {
 	public var collider: Collider;
 	public var scene: Scene;
 	public var active: Bool = true;
